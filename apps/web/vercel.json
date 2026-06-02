@@ -1,0 +1,147 @@
+{
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "regions": ["iad1"],
+  "env": [
+    {
+      "key": "DATABASE_URL",
+      "type": "secret",
+      "description": "MySQL database connection string"
+    },
+    {
+      "key": "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
+      "type": "secret",
+      "description": "Clerk publishable key for authentication"
+    },
+    {
+      "key": "CLERK_SECRET_KEY",
+      "type": "secret",
+      "description": "Clerk secret key"
+    },
+    {
+      "key": "CLERK_WEBHOOK_SECRET",
+      "type": "secret",
+      "description": "Clerk webhook secret for user sync"
+    },
+    {
+      "key": "REDIS_URL",
+      "type": "secret",
+      "description": "Redis connection string (Upstash)"
+    },
+    {
+      "key": "UPSTASH_REDIS_REST_URL",
+      "type": "secret",
+      "description": "Upstash Redis REST API URL"
+    },
+    {
+      "key": "UPSTASH_REDIS_REST_TOKEN",
+      "type": "secret",
+      "description": "Upstash Redis REST token"
+    },
+    {
+      "key": "NEXT_PUBLIC_FIREBASE_API_KEY",
+      "type": "secret"
+    },
+    {
+      "key": "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN",
+      "type": "secret"
+    },
+    {
+      "key": "NEXT_PUBLIC_FIREBASE_PROJECT_ID",
+      "type": "secret"
+    },
+    {
+      "key": "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET",
+      "type": "secret"
+    },
+    {
+      "key": "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID",
+      "type": "secret"
+    },
+    {
+      "key": "NEXT_PUBLIC_FIREBASE_APP_ID",
+      "type": "secret"
+    },
+    {
+      "key": "FIREBASE_ADMIN_SDK_KEY",
+      "type": "secret"
+    },
+    {
+      "key": "NEXT_PUBLIC_RAZORPAY_KEY_ID",
+      "type": "secret"
+    },
+    {
+      "key": "RAZORPAY_KEY_SECRET",
+      "type": "secret"
+    },
+    {
+      "key": "RAZORPAY_WEBHOOK_SECRET",
+      "type": "secret"
+    },
+    {
+      "key": "RESEND_API_KEY",
+      "type": "secret"
+    },
+    {
+      "key": "MSG91_API_KEY",
+      "type": "secret"
+    },
+    {
+      "key": "MSG91_ROUTE",
+      "type": "secret"
+    },
+    {
+      "key": "AMADEUS_CLIENT_ID",
+      "type": "secret"
+    },
+    {
+      "key": "AMADEUS_CLIENT_SECRET",
+      "type": "secret"
+    },
+    {
+      "key": "NEXT_PUBLIC_OTP_API_URL",
+      "type": "secret",
+      "description": "OpenTripPlanner API endpoint"
+    },
+    {
+      "key": "NEXT_PUBLIC_SENTRY_DSN",
+      "type": "secret"
+    },
+    {
+      "key": "SENTRY_ENVIRONMENT",
+      "type": "constant",
+      "value": "production"
+    },
+    {
+      "key": "SENTRY_ENABLED",
+      "type": "constant",
+      "value": "true"
+    },
+    {
+      "key": "NODE_ENV",
+      "type": "constant",
+      "value": "production"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    }
+  ]
+}

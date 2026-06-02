@@ -1,0 +1,12 @@
+default_platform(:android)
+
+platform :android do
+  desc "Submit a new Beta Build to Google Play Internal Track"
+  lane :beta do
+    gradle(task: "clean assembleRelease bundleRelease")
+    upload_to_play_store(
+      track: 'internal',
+      apk: 'app/build/outputs/apk/release/app-release.apk'
+    )
+  end
+end

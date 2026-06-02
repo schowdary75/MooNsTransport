@@ -1,0 +1,33 @@
+{
+  "name": "@moon/db",
+  "version": "1.0.0",
+  "description": "Database schema and migrations for Moon",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./schema": "./prisma/schema.prisma"
+  },
+  "scripts": {
+    "generate": "prisma generate",
+    "db:push": "prisma db push --accept-data-loss",
+    "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:seed": "tsx seed.ts",
+    "db:studio": "prisma studio",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "prisma": "^5.5.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.2.2"
+  }
+}

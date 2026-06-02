@@ -1,0 +1,263 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-sans: 'Aptos', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    --font-mono: 'Cascadia Mono', 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace;
+
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.6%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.6%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.6%;
+
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+
+    --accent: 142 71% 45%;
+    --accent-foreground: 355 100% 97.3%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 142 71% 45%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 3.6%;
+    --foreground: 0 0% 98.2%;
+
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 98.2%;
+
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 98.2%;
+
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+
+    --accent: 142 71% 45%;
+    --accent-foreground: 142 80% 14%;
+
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 142 70% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at top left, rgba(34, 197, 94, 0.08), transparent 34%),
+      radial-gradient(circle at top right, rgba(14, 165, 233, 0.06), transparent 28%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 1));
+    font-feature-settings:
+      'rligatures' 1,
+      'calt' 1;
+  }
+
+  .dark body {
+    background-image:
+      radial-gradient(circle at top left, rgba(34, 197, 94, 0.12), transparent 34%),
+      radial-gradient(circle at top right, rgba(14, 165, 233, 0.08), transparent 28%),
+      linear-gradient(180deg, rgba(9, 9, 11, 0.9), rgba(15, 15, 17, 1));
+  }
+}
+
+/* Safe area padding for mobile notches */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  .safe-pb {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-pt {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-muted;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-foreground/50;
+}
+
+/* Loading skeleton animation */
+.animate-skeleton {
+  @apply animate-pulse bg-muted rounded;
+}
+
+/* Map container */
+.map-container {
+  @apply w-full h-full rounded-lg overflow-hidden;
+}
+
+.map-container .leaflet-container {
+  @apply font-sans;
+}
+
+::selection {
+  background: rgba(34, 197, 94, 0.2);
+  color: rgb(15, 23, 42);
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 24px 80px -30px rgba(15, 23, 42, 0.35);
+}
+
+/* Input focus styles */
+@layer components {
+  .input-focus {
+    @apply outline-none ring-2 ring-brand-500 ring-offset-2;
+  }
+
+  .btn-primary {
+    @apply px-4 py-2 bg-brand-500 text-white rounded-lg font-medium
+    hover:bg-brand-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2 bg-muted text-foreground rounded-lg font-medium
+    hover:bg-muted/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+}
+
+/* Futuristic Leaflet Map Custom Styling Overrides */
+.leaflet-container {
+  background-color: #020617 !important; /* Slate 950 base */
+  font-family: var(--font-sans) !important;
+}
+
+/* Futuristic Neon Glassmorphic Popups */
+.leaflet-popup-content-wrapper {
+  background: rgba(9, 9, 11, 0.85) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 1.25rem !important;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6) !important;
+  color: #f1f5f9 !important;
+  padding: 4px 6px !important;
+}
+
+.leaflet-popup-tip-container {
+  margin-top: -1px !important;
+}
+
+.leaflet-popup-tip {
+  background: rgba(9, 9, 11, 0.85) !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: none !important;
+}
+
+.leaflet-popup-content {
+  margin: 12px 14px !important;
+  line-height: 1.5 !important;
+  font-size: 11px !important;
+}
+
+.leaflet-popup-close-button {
+  color: #94a3b8 !important;
+  padding: 8px !important;
+  font-size: 14px !important;
+  transition: color 0.15s ease !important;
+}
+
+.leaflet-popup-close-button:hover {
+  color: #ef4444 !important;
+  background: transparent !important;
+}
+
+/* Glassmorphic Zoom Controls */
+.leaflet-bar {
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.5) !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+.leaflet-bar a {
+  background: rgba(9, 9, 11, 0.85) !important;
+  backdrop-filter: blur(8px) !important;
+  color: #cbd5e1 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  transition: all 0.2s ease !important;
+}
+
+.leaflet-bar a:hover {
+  background: rgba(30, 41, 59, 0.9) !important;
+  color: #ffffff !important;
+}
+
+.leaflet-bar a.leaflet-disabled {
+  background: rgba(9, 9, 11, 0.5) !important;
+  color: #475569 !important;
+}
+
+/* Minimalist and unobtrusive attribution control */
+.leaflet-control-attribution {
+  background: rgba(2, 6, 23, 0.6) !important;
+  backdrop-filter: blur(4px) !important;
+  color: #64748b !important;
+  font-size: 9px !important;
+  border-top-left-radius: 8px !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.leaflet-control-attribution a {
+  color: #3b82f6 !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+}
+
+.leaflet-control-attribution a:hover {
+  text-decoration: underline !important;
+}
+
+/* Subtle tile enhancement filters for a crisp, futuristic rendering */
+.leaflet-tile-container img {
+  filter: saturate(1.15) contrast(1.02) brightness(0.98);
+}

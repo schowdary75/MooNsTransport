@@ -1,0 +1,17 @@
+# Default code owners for entire repo
+* @moon-team
+
+# Web app specific
+/apps/web/ @moon-team
+/apps/web/app/admin/ @moon-admins
+
+# Infrastructure
+/.github/ @moon-devops
+/services/ @moon-devops
+
+# Database
+/packages/db/ @moon-devops
+
+# Config
+/packages/config/ @moon-team
+/turbo.json @moon-devops

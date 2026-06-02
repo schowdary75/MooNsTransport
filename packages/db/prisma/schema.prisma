@@ -1,0 +1,527 @@
+// Moon database schema
+// MySQL + Prisma with PlanetScale-compatible relation mode.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model User {
+  id            String   @id @default(cuid())
+  clerkId       String   @unique
+  phone         String?  @unique
+  email         String?  @unique
+  name          String?
+  avatar        String?
+  role          UserRole @default(USER)
+  preferredLang String   @default("en")
+  homeAddress   String?
+  workAddress   String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  bookings       Booking[]
+  savedPlaces    SavedPlace[]
+  journeyHistory JourneyHistory[]
+  supportTickets SupportTicket[]
+  messages        TicketMessage[]
+  notifications   Notification[]
+  payments        Payment[]
+  pushTokens      PushToken[]
+
+  @@index([role])
+  @@index([createdAt])
+}
+
+model City {
+  id        String   @id @default(cuid())
+  name      String
+  state     String
+  country   String   @default("IN")
+  lat       Float
+  lng       Float
+  isActive  Boolean  @default(true)
+  timezone  String   @default("Asia/Kolkata")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  stops  Stop[]
+  routes Route[]
+
+  @@unique([name, state])
+  @@index([state])
+  @@index([isActive])
+  @@index([lat, lng])
+}
+
+model Stop {
+  id        String   @id @default(cuid())
+  gtfsId    String?  @unique
+  name      String
+  nameHindi String?
+  lat       Float
+  lng       Float
+  cityId    String
+  type      StopType
+  code      String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  city       City        @relation(fields: [cityId], references: [id], onDelete: Cascade)
+  routeStops RouteStop[]
+
+  @@unique([cityId, code])
+  @@index([cityId])
+  @@index([cityId, type])
+  @@index([isActive])
+  @@index([lat, lng])
+}
+
+model Operator {
+  id           String       @id @default(cuid())
+  name         String
+  shortName    String
+  type         OperatorType
+  state        String?
+  logoUrl      String?
+  websiteUrl   String?
+  supportEmail String?
+  supportPhone String?
+  isActive     Boolean      @default(true)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  routes   Route[]
+  vehicles Vehicle[]
+
+  @@unique([shortName, type])
+  @@index([type])
+  @@index([state])
+  @@index([isActive])
+}
+
+model Route {
+  id         String    @id @default(cuid())
+  gtfsId     String?   @unique
+  name       String
+  shortName  String?
+  type       RouteType
+  cityId     String
+  operatorId String?
+  color      String?
+  farePerKm  Decimal?  @db.Decimal(8, 2)
+  baseFare   Decimal?  @db.Decimal(8, 2)
+  isActive   Boolean   @default(true)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  city     City         @relation(fields: [cityId], references: [id], onDelete: Cascade)
+  operator Operator?    @relation(fields: [operatorId], references: [id], onDelete: SetNull)
+  stops    RouteStop[]
+  trips    Trip[]
+
+  @@index([cityId])
+  @@index([operatorId])
+  @@index([cityId, type])
+  @@index([isActive])
+}
+
+model RouteStop {
+  id             String   @id @default(cuid())
+  routeId        String
+  stopId         String
+  sequence       Int
+  distanceKm     Decimal? @db.Decimal(8, 2)
+  travelTimeMins Int?
+  createdAt      DateTime @default(now())
+
+  route Route @relation(fields: [routeId], references: [id], onDelete: Cascade)
+  stop  Stop  @relation(fields: [stopId], references: [id], onDelete: Cascade)
+
+  @@unique([routeId, sequence])
+  @@unique([routeId, stopId])
+  @@index([routeId])
+  @@index([stopId])
+}
+
+model Trip {
+  id          String   @id @default(cuid())
+  routeId     String
+  departTime  String
+  arrivalTime String
+  days        String
+  trainNumber String?
+  busNumber   String?
+  seatsTotal  Int?
+  seatsAvail  Int?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  route Route @relation(fields: [routeId], references: [id], onDelete: Cascade)
+
+  @@index([routeId])
+  @@index([routeId, departTime])
+  @@index([isActive])
+}
+
+model Vehicle {
+  id         String      @id @default(cuid())
+  operatorId String
+  number     String
+  type       VehicleType
+  lat        Float?
+  lng        Float?
+  speed      Float?
+  heading    Float?
+  lastSeenAt DateTime?
+  isOnline   Boolean     @default(false)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  operator Operator @relation(fields: [operatorId], references: [id], onDelete: Cascade)
+
+  @@unique([operatorId, number])
+  @@index([operatorId])
+  @@index([isOnline])
+  @@index([lastSeenAt])
+  @@index([lat, lng])
+}
+
+model Booking {
+  id          String        @id @default(cuid())
+  userId      String
+  type        BookingType
+  status      BookingStatus @default(PENDING)
+  fromStop    String
+  toStop      String
+  journeyDate DateTime
+  passengers  Int           @default(1)
+  totalFare   Decimal       @db.Decimal(10, 2)
+  currency    String        @default("INR")
+  externalRef String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  payment        Payment?
+  tickets        Ticket[]
+  refund         Refund?
+  supportTickets SupportTicket[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([type])
+  @@index([journeyDate])
+  @@index([externalRef])
+}
+
+model Ticket {
+  id            String   @id @default(cuid())
+  bookingId     String
+  seatNumber    String?
+  coachNumber   String?
+  qrCode        String?  @unique
+  isUsed        Boolean  @default(false)
+  validFrom     DateTime
+  validTo       DateTime
+  passengerName String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@index([bookingId])
+  @@index([isUsed])
+  @@index([validFrom, validTo])
+}
+
+model Payment {
+  id              String        @id @default(cuid())
+  userId          String
+  bookingId       String?       @unique
+  razorpayOrderId String?       @unique
+  razorpayPayId   String?       @unique
+  amount          Decimal       @db.Decimal(10, 2)
+  currency        String        @default("INR")
+  method          PaymentMethod
+  status          PaymentStatus @default(CREATED)
+  gateway         String        @default("razorpay")
+  metadata        Json?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  booking Booking? @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  refund  Refund?
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model Refund {
+  id            String       @id @default(cuid())
+  bookingId     String       @unique
+  paymentId     String       @unique
+  amount        Decimal      @db.Decimal(10, 2)
+  reason        String
+  status        RefundStatus @default(PENDING)
+  razorpayRefId String?      @unique
+  processedAt   DateTime?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  payment Payment @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+model SavedPlace {
+  id        String   @id @default(cuid())
+  userId    String
+  label     String
+  address   String
+  lat       Float
+  lng       Float
+  icon      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, label])
+  @@index([userId])
+  @@index([lat, lng])
+}
+
+model JourneyHistory {
+  id        String   @id @default(cuid())
+  userId    String
+  fromName  String
+  fromLat   Float
+  fromLng   Float
+  toName    String
+  toLat     Float
+  toLng     Float
+  modes     String
+  duration  Int
+  distance  Decimal  @db.Decimal(8, 2)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
+  @@index([fromLat, fromLng])
+  @@index([toLat, toLng])
+}
+
+model SupportTicket {
+  id          String         @id @default(cuid())
+  userId      String
+  bookingId   String?
+  category    TicketCategory
+  subject     String
+  description String         @db.Text
+  status      TicketStatus   @default(OPEN)
+  priority    TicketPriority @default(MEDIUM)
+  assignedTo  String?
+  resolvedAt  DateTime?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  user     User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  booking  Booking?        @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+  messages TicketMessage[]
+
+  @@index([userId])
+  @@index([bookingId])
+  @@index([status])
+  @@index([priority])
+  @@index([assignedTo])
+  @@index([createdAt])
+}
+
+model TicketMessage {
+  id         String   @id @default(cuid())
+  ticketId   String
+  senderId   String
+  senderRole UserRole
+  body       String   @db.Text
+  isInternal Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  ticket SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  sender User          @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  @@index([ticketId])
+  @@index([senderId])
+  @@index([createdAt])
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  type      NotificationType
+  title     String
+  body      String
+  data      Json?
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead])
+  @@index([type])
+  @@index([createdAt])
+}
+
+enum UserRole {
+  GUEST
+  USER
+  OPERATOR
+  SUPPORT_AGENT
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum StopType {
+  BUS
+  METRO
+  RAILWAY
+  AIRPORT
+  FERRY
+}
+
+enum OperatorType {
+  STATE_RTC
+  METRO_CORP
+  PRIVATE_BUS
+  RAILWAY
+  AIRLINE
+  RENTAL
+}
+
+enum RouteType {
+  BUS
+  METRO
+  SUBURBAN_RAIL
+  TRAM
+  CABLE_CAR
+  FERRY
+}
+
+enum VehicleType {
+  BUS
+  METRO_TRAIN
+  SUBURBAN_TRAIN
+  MINIBUS
+  AUTO
+}
+
+enum BookingType {
+  TRAIN
+  BUS
+  METRO
+  FLIGHT
+  CAB
+  BIKE_RENTAL
+  CAR_RENTAL
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+  REFUNDED
+  FAILED
+}
+
+enum PaymentMethod {
+  UPI
+  CARD_DEBIT
+  CARD_CREDIT
+  NET_BANKING
+  WALLET_PAYTM
+  WALLET_PHONEPE
+  CASH
+}
+
+enum PaymentStatus {
+  CREATED
+  AUTHORIZED
+  CAPTURED
+  FAILED
+  REFUNDED
+}
+
+enum RefundStatus {
+  PENDING
+  APPROVED
+  PROCESSING
+  COMPLETED
+  REJECTED
+}
+
+enum TicketCategory {
+  BOOKING_ISSUE
+  PAYMENT_ISSUE
+  REFUND_REQUEST
+  APP_BUG
+  ROUTE_WRONG
+  GENERAL_QUERY
+  COMPLAINT
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  WAITING_USER
+  RESOLVED
+  CLOSED
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum NotificationType {
+  BOOKING_CONFIRMED
+  BOOKING_CANCELLED
+  PAYMENT_SUCCESS
+  PAYMENT_FAILED
+  REFUND_PROCESSED
+  TRIP_REMINDER
+  DELAY_ALERT
+  TICKET_REPLY
+  PROMO
+}
+
+model PushToken {
+  id          String   @id @default(cuid())
+  userId      String
+  token       String   @unique
+  platform    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  lastUpdated DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, token])
+  @@index([userId])
+}
+

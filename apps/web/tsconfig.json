@@ -1,0 +1,46 @@
+{
+  "extends": "../../packages/config/typescript/base.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "jsxImportSource": "react",
+    "incremental": true,
+    "rootDir": "../..",
+    "baseUrl": ".",
+    "ignoreDeprecations": "5.0",
+    "paths": {
+      "@/*": [
+        "./*"
+      ],
+      "@moon/api": [
+        "../../packages/api/src/index.ts"
+      ],
+      "@moon/ui": [
+        "../../packages/ui/src/index.ts"
+      ],
+      "@moon/utils": [
+        "../../packages/utils/src/index.ts"
+      ],
+      "@moon/db": [
+        "../../packages/db/src/index.ts"
+      ],
+      "@moon/config/*": [
+        "../../packages/config/*"
+      ]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "allowJs": true
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

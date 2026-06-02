@@ -1,0 +1,50 @@
+{
+  "routingDefaults": {
+    "numItineraries": 3,
+    "transferPenalty": 0,
+    "walkSpeed": 1.4,
+    "bikeSpeed": 5,
+    "carSpeed": 20,
+    "boardSlack": 0,
+    "alightSlack": 0,
+    "maxWalkDistance": 2000,
+    "maxPreTransitTime": 1800,
+    "maxAccessEgressTransitTime": 3600,
+    "scheduleBasedBikeParkTime": 600
+  },
+  "transit": {
+    "maxDistance": 2000
+  },
+  "longDistance": {
+    "maxDistance": 100000
+  },
+  "updaters": [
+    {
+      "type": "gtfs-http-feed",
+      "frequencySec": 3600,
+      "sourceType": "gtfs-http",
+      "url": "https://www.delhimetrorail.com/open_data/gtfs_feed.zip",
+      "feedId": "delhi-metro"
+    }
+  ],
+  "vectorTileLayers": [
+    {
+      "name": "stops",
+      "type": "Stop",
+      "matcher": "SELECT * FROM stops",
+      "mappings": [
+        {
+          "name": "stop_name",
+          "attribute": "name"
+        },
+        {
+          "name": "stop_code",
+          "attribute": "code"
+        }
+      ]
+    }
+  ],
+  "osm": {
+    "timeZone": "Asia/Kolkata"
+  }
+}

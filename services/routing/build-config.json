@@ -1,0 +1,28 @@
+{
+  "osm": [
+    {
+      "source": "https://planet.openstreetmap.org/pbf/asia/india/delhi-latest.osm.pbf"
+    },
+    {
+      "source": "https://planet.openstreetmap.org/pbf/asia/india/maharashtra-latest.osm.pbf"
+    },
+    {
+      "source": "https://planet.openstreetmap.org/pbf/asia/india/karnataka-latest.osm.pbf"
+    },
+    {
+      "source": "https://planet.openstreetmap.org/pbf/asia/india/telangana-latest.osm.pbf"
+    }
+  ],
+  "gtfs": [
+    {
+      "source": "https://www.delhimetrorail.com/open_data/gtfs_feed.zip"
+    }
+  ],
+  "elevation": {
+    "source": "geotiff",
+    "fileSource": "http://raster.nationalmap.gov/arcgis/services/elevation"
+  },
+  "fares": {
+    "fare_service": "gtfs"
+  }
+}

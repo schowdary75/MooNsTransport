@@ -1,0 +1,22 @@
+{
+  "name": "@moon/tracking",
+  "version": "1.0.0",
+  "description": "WebSocket vehicle tracking server for Moon",
+  "private": true,
+  "main": "server.ts",
+  "scripts": {
+    "dev": "tsx watch server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@upstash/redis": "^1.25.0",
+    "socket.io": "^4.7.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.2.2"
+  }
+}
