@@ -4,127 +4,100 @@
   "installCommand": "npm install",
   "framework": "nextjs",
   "regions": ["iad1"],
-  "env": [
-    {
-      "key": "DATABASE_URL",
+  "env": {
+    "DATABASE_URL": {
       "type": "secret",
       "description": "MySQL database connection string"
     },
-    {
-      "key": "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
+    "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY": {
       "type": "secret",
       "description": "Clerk publishable key for authentication"
     },
-    {
-      "key": "CLERK_SECRET_KEY",
+    "CLERK_SECRET_KEY": {
       "type": "secret",
       "description": "Clerk secret key"
     },
-    {
-      "key": "CLERK_WEBHOOK_SECRET",
+    "CLERK_WEBHOOK_SECRET": {
       "type": "secret",
       "description": "Clerk webhook secret for user sync"
     },
-    {
-      "key": "REDIS_URL",
+    "REDIS_URL": {
       "type": "secret",
       "description": "Redis connection string (Upstash)"
     },
-    {
-      "key": "UPSTASH_REDIS_REST_URL",
+    "UPSTASH_REDIS_REST_URL": {
       "type": "secret",
       "description": "Upstash Redis REST API URL"
     },
-    {
-      "key": "UPSTASH_REDIS_REST_TOKEN",
+    "UPSTASH_REDIS_REST_TOKEN": {
       "type": "secret",
       "description": "Upstash Redis REST token"
     },
-    {
-      "key": "NEXT_PUBLIC_FIREBASE_API_KEY",
+    "NEXT_PUBLIC_FIREBASE_API_KEY": {
       "type": "secret"
     },
-    {
-      "key": "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN",
+    "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN": {
       "type": "secret"
     },
-    {
-      "key": "NEXT_PUBLIC_FIREBASE_PROJECT_ID",
+    "NEXT_PUBLIC_FIREBASE_PROJECT_ID": {
       "type": "secret"
     },
-    {
-      "key": "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET",
+    "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET": {
       "type": "secret"
     },
-    {
-      "key": "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID",
+    "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID": {
       "type": "secret"
     },
-    {
-      "key": "NEXT_PUBLIC_FIREBASE_APP_ID",
+    "NEXT_PUBLIC_FIREBASE_APP_ID": {
       "type": "secret"
     },
-    {
-      "key": "FIREBASE_ADMIN_SDK_KEY",
+    "FIREBASE_ADMIN_SDK_KEY": {
       "type": "secret"
     },
-    {
-      "key": "NEXT_PUBLIC_RAZORPAY_KEY_ID",
+    "NEXT_PUBLIC_RAZORPAY_KEY_ID": {
       "type": "secret"
     },
-    {
-      "key": "RAZORPAY_KEY_SECRET",
+    "RAZORPAY_KEY_SECRET": {
       "type": "secret"
     },
-    {
-      "key": "RAZORPAY_WEBHOOK_SECRET",
+    "RAZORPAY_WEBHOOK_SECRET": {
       "type": "secret"
     },
-    {
-      "key": "RESEND_API_KEY",
+    "RESEND_API_KEY": {
       "type": "secret"
     },
-    {
-      "key": "MSG91_API_KEY",
+    "MSG91_API_KEY": {
       "type": "secret"
     },
-    {
-      "key": "MSG91_ROUTE",
+    "MSG91_ROUTE": {
       "type": "secret"
     },
-    {
-      "key": "AMADEUS_CLIENT_ID",
+    "AMADEUS_CLIENT_ID": {
       "type": "secret"
     },
-    {
-      "key": "AMADEUS_CLIENT_SECRET",
+    "AMADEUS_CLIENT_SECRET": {
       "type": "secret"
     },
-    {
-      "key": "NEXT_PUBLIC_OTP_API_URL",
+    "NEXT_PUBLIC_OTP_API_URL": {
       "type": "secret",
       "description": "OpenTripPlanner API endpoint"
     },
-    {
-      "key": "NEXT_PUBLIC_SENTRY_DSN",
+    "NEXT_PUBLIC_SENTRY_DSN": {
       "type": "secret"
     },
-    {
-      "key": "SENTRY_ENVIRONMENT",
+    "SENTRY_ENVIRONMENT": {
       "type": "constant",
       "value": "production"
     },
-    {
-      "key": "SENTRY_ENABLED",
+    "SENTRY_ENABLED": {
       "type": "constant",
       "value": "true"
     },
-    {
-      "key": "NODE_ENV",
+    "NODE_ENV": {
       "type": "constant",
       "value": "production"
     }
-  ],
+  },
   "headers": [
     {
       "source": "/(.*)",
