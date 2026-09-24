@@ -1,8 +1,5 @@
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/logo-dark.svg">
-    <img src="docs/images/logo.png" alt="MooN logo" width="220">
-  </picture>
+  <img src="docs/images/logo.png" alt="MooN logo" width="220" />
 </p>
 
 <h1 align="center">MooNsTransport</h1>
