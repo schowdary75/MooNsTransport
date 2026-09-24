@@ -21,6 +21,7 @@
   <a href="https://github.com/schowdary75/MooNsTransport"><img src="https://img.shields.io/github/stars/schowdary75/MooNsTransport?style=flat-square&amp;logo=github&amp;cacheSeconds=1800" alt="GitHub stars" /></a>
   <a href="https://github.com/schowdary75/MooNsTransport/forks"><img src="https://img.shields.io/github/forks/schowdary75/MooNsTransport?style=flat-square&amp;logo=github" alt="GitHub forks" /></a>
   <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/contributions-welcome-6f42c1?style=flat-square" alt="Contributions welcome" /></a>
+  <a href="https://github.com/sponsors/schowdary75"><img src="https://img.shields.io/badge/Sponsor-%E2%9D%A4-ea4aaa?style=flat-square&amp;logo=githubsponsors&amp;logoColor=white" alt="Sponsor schowdary75" /></a>
   <a href="DEVELOPMENT.md"><img src="https://img.shields.io/badge/local_development-ready-2C847C?style=flat-square&amp;logo=googlechrome&amp;logoColor=white" alt="Local Development" /></a>
 </p>
 
@@ -125,6 +126,20 @@ npm run typecheck
 # Run test suites
 npm run test
 ```
+
+---
+
+## 💖 Support & Sponsorship
+
+If you find **MooNsTransport** valuable for your mobility platform evaluation, architecture research, or personal development, please consider supporting ongoing open-source engineering through **[GitHub Sponsors](https://github.com/sponsors/schowdary75)**.
+
+> *"Your sponsorship directly fuels independent research, infrastructure upkeep, security hardening, and continuous feature delivery across the MooNs ecosystem."*
+
+<p align="left">
+  <a href="https://github.com/sponsors/schowdary75">
+    <img src="https://img.shields.io/badge/Sponsor_schowdary75-%E2%9D%A4-ea4aaa?style=for-the-badge&logo=githubsponsors&logoColor=white" alt="Sponsor schowdary75 on GitHub Sponsors" />
+  </a>
+</p>
 
 ---
 
